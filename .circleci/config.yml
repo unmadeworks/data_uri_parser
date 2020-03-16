@@ -30,6 +30,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update poetry (circleci has <1.0 poetry by default)
+          command: pip install -U --user poetry
+      - run:
           name: Install
           command: poetry install
       - run:
