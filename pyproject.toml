@@ -2,7 +2,7 @@
 name = "data-uri-parser"
 version = "0.1.0"
 description = "A Pythonic data uri parser"
-authors = ["Unmade <hello@unmade.com"]
+authors = ["Unmade <backend@unmade.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
