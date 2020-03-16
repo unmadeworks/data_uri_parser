@@ -1,0 +1,52 @@
+version: 2
+
+workflows:
+  version: 2
+
+  development-workflow:
+    jobs:
+      - development
+
+  deployment-workflow:
+    jobs:
+      - development:
+          filters:
+            branches:
+              ignore:
+                - master
+
+      - deployment:
+          requires:
+            - development
+          filters:
+              branches:
+                only: master
+
+jobs:
+  development:
+    docker:
+      - image: circleci/python:3.6.8
+
+    steps:
+      - checkout
+      - run:
+          name: Install
+          command: poetry install
+      - run:
+         name: Lint
+         command: poetry run black --check .
+      - run:
+          name: Test
+          command: poetry run pytest
+
+  deployment:
+      docker:
+        - image: circleci/python:3.6.8
+
+      steps:
+        - checkout
+        - run:
+            name: Publish
+            command: |
+              poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+
