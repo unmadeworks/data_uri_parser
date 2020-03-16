@@ -1,13 +1,14 @@
-# DataURI.py
+# data_uri_parser
+
+Originally from: https://gist.github.com/zacharyvoase/5538178
 
 Data URI manipulation made easy.
 
 This isn't very robust, and will reject a number of valid data URIs. However, it meets the most useful case: a mimetype, a charset, and the base64 flag.
 
-
 ### Parsing
 
-```pycon
+```python
 >>> uri = DataURI('data:text/plain;charset=utf-8;base64,VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu')
 >>> uri.mimetype
 'text/plain'
@@ -24,7 +25,7 @@ Note that `DataURI.data` won't decode the data bytestring into a unicode string 
 
 ### Creating from a string
 
-```pycon
+```python
 >>> made = DataURI.make('text/plain', charset='us-ascii', base64=True, data='This is a message.')
 >>> made
 DataURI('data:text/plain;charset=us-ascii;base64,VGhpcyBpcyBhIG1lc3NhZ2Uu')
@@ -37,14 +38,10 @@ DataURI('data:text/plain;charset=us-ascii;base64,VGhpcyBpcyBhIG1lc3NhZ2Uu')
 
 This is really just a convenience method.
 
-```pycon
+```python
 >>> png_uri = DataURI.from_file('somefile.png')
 >>> png_uri.mimetype
 'image/png'
 >>> png_uri.data
 '\x89PNG\r\n...'
 ```
-
-### License
-
-This code is released under the Unlicense (c.f. <http://unlicense.org/>).
