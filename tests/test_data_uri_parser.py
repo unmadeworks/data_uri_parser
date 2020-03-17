@@ -1,6 +1,7 @@
 from base64 import encodebytes
 from io import BytesIO
-from os.path import dirname, realpath, join
+from os.path import dirname, join, realpath
+
 import pytest
 from pytest import fixture
 

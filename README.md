@@ -1,10 +1,18 @@
 # data_uri_parser
 
-Originally from: https://gist.github.com/zacharyvoase/5538178
+<a href="https://pypi.org/project/data_uri_parser/"><img alt="Supported Python versions" src="https://img.shields.io/pypi/pyversions/data_uri_parser.svg"></a>
+<a href="https://pypi.org/project/data_uri_parser/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/data_uri_parser.svg"></a>
+<a href="https://opensource.org/licenses/MIT"><img alt="Licence" src="https://img.shields.io/github/license/unmadeworks/data_uri_parser.svg"></a>
 
-Data URI manipulation made easy.
+_Data URI manipulation made easy._
 
 This isn't very robust, and will reject a number of valid data URIs. However, it meets the most useful case: a mimetype, a charset, and the base64 flag.
+
+## How to install
+
+```sh
+pip install data_uri_parser
+```
 
 ### Parsing
 
@@ -45,3 +53,7 @@ This is really just a convenience method.
 >>> png_uri.data
 '\x89PNG\r\n...'
 ```
+
+## Notes
+
+Originally from: https://gist.github.com/zacharyvoase/5538178

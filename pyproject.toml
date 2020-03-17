@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "data-uri-parser"
-version = "0.1.1"
+version = "0.1.2"
 readme = "README.md"
 license = "MIT"
 description = "A Pythonic data uri parser"
@@ -12,7 +12,9 @@ python = "^3.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^19.10b0"
+isort = "^4.3"
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.0"]
 build-backend = "poetry.masonry.api"
