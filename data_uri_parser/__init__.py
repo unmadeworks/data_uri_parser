@@ -4,7 +4,7 @@ import mimetypes
 import re
 import textwrap
 import urllib
-from base64 import encodebytes, b64decode
+from base64 import b64decode, encodebytes
 
 MIMETYPE_REGEX = r"[\w]+\/[\w\-\+\.]+"
 _MIMETYPE_RE = re.compile("^{}$".format(MIMETYPE_REGEX))

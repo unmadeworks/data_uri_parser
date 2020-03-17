@@ -39,6 +39,9 @@ jobs:
          name: Lint
          command: poetry run black --check .
       - run:
+         name: Check imports
+         command: poetry run isort --check-only -rc .
+      - run:
           name: Test
           command: poetry run pytest
 
