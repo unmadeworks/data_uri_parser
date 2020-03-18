@@ -12,7 +12,7 @@ workflows:
       - development:
           filters:
             branches:
-              ignore:
+              only:
                 - master
 
       - deployment:
@@ -52,7 +52,9 @@ jobs:
       steps:
         - checkout
         - run:
+            name: Update poetry (circleci has <1.0 poetry by default)
+            command: pip install -U --user poetry
+        - run:
             name: Publish
-            command: |
-              poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+            command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
 
