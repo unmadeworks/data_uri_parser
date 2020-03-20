@@ -44,6 +44,9 @@ jobs:
       - run:
           name: Test
           command: poetry run pytest
+      - run:
+          name: Check package version
+          command: bash .circleci/check_version.sh
 
   deployment:
       docker:
