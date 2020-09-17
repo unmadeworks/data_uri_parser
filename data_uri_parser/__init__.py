@@ -114,5 +114,5 @@ class DataURI(str):
         if match.group("base64"):
             data = b64decode(match.group("data"))
         else:
-            data = urllib.unquote(match.group("data"))
+            data = urllib.parse.unquote(match.group("data"))
         return mimetype, charset, bool(match.group("base64")), data
