@@ -42,6 +42,14 @@ def dummy_content_and_data_uri_non_b64():
 
 
 @fixture(scope="function")
+def dummy_content_and_data_uri_non_b64_with_whitespace():
+    return (
+        "foo bar:1234,5678",
+        "data:text/plain; charset=UTF-8,foo%20bar:1234,5678",
+    )
+
+
+@fixture(scope="function")
 def dummy_response_object():
     class TestResponse:
         def __init__(self, content_type, content):
@@ -83,6 +91,18 @@ class TestDataURI:
 
     def test_from_string_to_data_uri_non_b64(self, dummy_content_and_data_uri_non_b64):
         content, dummy_data_uri = dummy_content_and_data_uri_non_b64
+        data_uri = DataURI(dummy_data_uri)
+
+        assert type(data_uri) == DataURI
+        assert data_uri.mimetype == "text/plain"
+        assert not data_uri.is_base64
+        assert type(data_uri.data) == str
+        assert data_uri.data == content
+
+    def test_from_string_to_data_uri_non_b64_with_whitespace(
+        self, dummy_content_and_data_uri_non_b64_with_whitespace
+    ):
+        content, dummy_data_uri = dummy_content_and_data_uri_non_b64_with_whitespace
         data_uri = DataURI(dummy_data_uri)
 
         assert type(data_uri) == DataURI
