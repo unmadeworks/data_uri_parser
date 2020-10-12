@@ -15,7 +15,7 @@ _CHARSET_RE = re.compile("^{}$".format(CHARSET_REGEX))
 DATA_URI_REGEX = (
     r"data:"
     + r"(?P<mimetype>{})?".format(MIMETYPE_REGEX)
-    + r"(?:\;charset\=(?P<charset>{}))?".format(CHARSET_REGEX)
+    + r"(?:\;(?:\s*)charset\=(?P<charset>{}))?".format(CHARSET_REGEX)
     + r"(?P<base64>\;base64)?"
     + r",(?P<data>.*)"
 )
@@ -23,7 +23,7 @@ _DATA_URI_RE = re.compile(r"^{}$".format(DATA_URI_REGEX), re.DOTALL)
 
 CONTEXT_TYPE_REGEX = r"(?P<mimetype>{})?".format(
     MIMETYPE_REGEX
-) + r"(?:\;charset\=(?P<charset>{}))?".format(CHARSET_REGEX)
+) + r"(?:\;(?:\s*)?charset\=(?P<charset>{}))?".format(CHARSET_REGEX)
 
 _CONTEXT_URI_RE = re.compile(r"^{}$".format(CONTEXT_TYPE_REGEX), re.DOTALL)
 
