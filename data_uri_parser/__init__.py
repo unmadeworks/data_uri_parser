@@ -32,6 +32,9 @@ class DataURIValueError(ValueError):
     pass
 
 
+test_variable = 1
+
+
 class DataURI(str):
     @classmethod
     def make(cls, mimetype, data, charset=None, base64=True):
