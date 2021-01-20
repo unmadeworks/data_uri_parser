@@ -33,6 +33,9 @@ jobs:
           name: Update poetry (circleci has <1.0 poetry by default)
           command: pip install -U --user poetry
       - run:
+          name: Update pip (circleci has < 20.3.3 by default)
+          command: pip install -U --user pip
+      - run:
           name: Install
           command: poetry install
       - run:
