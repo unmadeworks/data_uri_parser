@@ -1,0 +1,18 @@
+version: 2
+registries:
+  python-index-ddnwizwidpwdz-cloudfront-net:
+    type: python-index
+    url: https://ddnwizwidpwdz.cloudfront.net
+    username: "${{secrets.PYTHON_INDEX_DDNWIZWIDPWDZ_CLOUDFRONT_NET_USERNAME}}"
+    password: "${{secrets.PYTHON_INDEX_DDNWIZWIDPWDZ_CLOUDFRONT_NET_PASSWORD}}"
+
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: sunday
+    time: "01:00"
+  open-pull-requests-limit: 99
+  registries:
+  - python-index-ddnwizwidpwdz-cloudfront-net
