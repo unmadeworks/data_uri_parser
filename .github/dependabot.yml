@@ -14,5 +14,6 @@ updates:
     day: sunday
     time: "01:00"
   open-pull-requests-limit: 99
+  insecure-external-code-execution: allow
   registries:
   - python-index-ddnwizwidpwdz-cloudfront-net
