@@ -13,14 +13,14 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
 
       - deployment:
           requires:
             - development
           filters:
             branches:
-              only: master
+              only: main
 
 jobs:
   development:
