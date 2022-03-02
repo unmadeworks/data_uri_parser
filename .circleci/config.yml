@@ -13,14 +13,14 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
 
       - deployment:
           requires:
             - development
           filters:
-              branches:
-                only: master
+            branches:
+              only: main
 
 jobs:
   development:
@@ -36,11 +36,11 @@ jobs:
           name: Install
           command: poetry install
       - run:
-         name: Lint
-         command: poetry run black --check .
+          name: Lint
+          command: poetry run black --check .
       - run:
-         name: Check imports
-         command: poetry run isort --check-only -rc .
+          name: Check imports
+          command: poetry run isort --check-only -rc .
       - run:
           name: Test
           command: poetry run pytest
@@ -49,15 +49,14 @@ jobs:
           command: bash .circleci/check_version.sh
 
   deployment:
-      docker:
-        - image: circleci/python:3.6.8
+    docker:
+      - image: circleci/python:3.6.8
 
-      steps:
-        - checkout
-        - run:
-            name: Update poetry (circleci has <1.0 poetry by default)
-            command: pip install -U --user poetry
-        - run:
-            name: Publish
-            command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
-
+    steps:
+      - checkout
+      - run:
+          name: Update poetry (circleci has <1.0 poetry by default)
+          command: pip install -U --user poetry
+      - run:
+          name: Publish
+          command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
