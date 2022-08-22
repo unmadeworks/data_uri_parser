@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "data-uri-parser"
-version = "0.1.10"
+version = "0.1.11"
 readme = "README.md"
 license = "MIT"
 description = "A Pythonic data uri parser"
@@ -11,7 +11,7 @@ authors = ["Unmade <backend@unmade.com>"]
 python = "^3.6"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.0"
 black = "^20.8b1"
 isort = "^5.8"
 
