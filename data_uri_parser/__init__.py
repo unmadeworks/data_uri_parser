@@ -1,10 +1,11 @@
-__version__ = "0.1.0"
-
 import mimetypes
 import re
 import textwrap
 import urllib.parse
 from base64 import b64decode, encodebytes
+from importlib.metadata import version
+
+__version__ = version("data-uri-parser")
 
 MIMETYPE_REGEX = r"[\w]+\/[\w\-\+\.]+"
 _MIMETYPE_RE = re.compile("^{}$".format(MIMETYPE_REGEX))

@@ -1,3 +1,4 @@
+import re
 from base64 import encodebytes
 from io import BytesIO
 from os.path import dirname, join, realpath
@@ -5,7 +6,7 @@ from os.path import dirname, join, realpath
 import pytest
 from pytest import fixture
 
-from data_uri_parser import DataURI, DataURIValueError
+from data_uri_parser import DataURI, DataURIValueError, __version__
 
 
 @fixture(scope="function")
@@ -64,6 +65,15 @@ def dummy_content_and_data_uri():
     content_data = b"some bytes of a PDF"
     enconded_data = encodebytes(content_data).decode("ascii").replace("\n", "")
     return content_data, f"data:application/pdf;base64,{enconded_data}"
+
+
+def test_version_matches_package_metadata():
+    pyproject = join(dirname(dirname(realpath(__file__))), "pyproject.toml")
+    with open(pyproject) as f:
+        expected = re.search(r'^version = "(.+)"$', f.read(), re.MULTILINE).group(1)
+
+    assert __version__ == expected
+    assert __version__ != "0.1.0"
 
 
 class TestDataURI:
