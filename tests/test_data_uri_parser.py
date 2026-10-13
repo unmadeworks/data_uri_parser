@@ -123,6 +123,15 @@ class TestDataURI:
         assert type(data_uri.data) == bytes
         assert data_uri.data == data
 
+    def test_make_non_b64_data_uri(self):
+        data = b"foo bar:1234,5678"
+
+        data_uri = DataURI.make("text/plain", data, base64=False)
+
+        assert data_uri == "data:text/plain,foo%20bar%3A1234%2C5678"
+        assert not data_uri.is_base64
+        assert data_uri.data == data.decode()
+
     def test_make_data_uri_from_file(self, asset_path_filename):
         data_uri_from_file = DataURI.from_file(asset_path_filename)
 
