@@ -1,0 +1,35 @@
+name: "Combine PRs"
+
+on:
+  workflow_dispatch:
+    inputs:
+      select_label:
+        description: "Only combine PRs with this label (leave blank for all)"
+        required: false
+        default: ""
+      ignore_label:
+        description: "Exclude PRs with this label"
+        required: false
+        default: "nocombine"
+      combine_branch_name:
+        description: "Name of the branch to combine PRs into"
+        required: false
+        default: "combined-prs"
+      ci_required:
+        description: "Only combine PRs with passing CI"
+        required: false
+        default: "true"
+
+jobs:
+  combine-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: github/combine-prs@v5.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Dependency Upgrades 🤖"
+          select_label: ${{ inputs.select_label }}
+          ignore_label: ${{ inputs.ignore_label }}
+          combine_branch_name: ${{ inputs.combine_branch_name }}
+          ci_required: ${{ inputs.ci_required }}
+          update_branch: false
