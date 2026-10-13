@@ -1,6 +1,6 @@
 [project]
 name = "data-uri-parser"
-version = "0.1.11"
+version = "0.1.12"
 description = "A Pythonic data uri parser"
 readme = "README.md"
 license = "MIT"
