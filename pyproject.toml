@@ -1,20 +1,31 @@
-[tool.poetry]
+[project]
 name = "data-uri-parser"
 version = "0.1.11"
+description = "A Pythonic data uri parser"
 readme = "README.md"
 license = "MIT"
-description = "A Pythonic data uri parser"
-homepage = "https://github.com/unmadeworks/data_uri_parser/"
-authors = ["Unmade <backend@unmade.com>"]
+authors = [{ name = "Unmade", email = "backend@unmade.com" }]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
 
-[tool.poetry.dependencies]
-python = "^3.6"
+[project.urls]
+Homepage = "https://github.com/unmadeworks/data_uri_parser/"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.0"
-black = "^20.8b1"
-isort = "^5.8"
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.1"
+black = "^26.10"
+isort = "^9.0"
+
+[tool.isort]
+profile = "black"
 
 [build-system]
-requires = ["poetry>=1.0"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
