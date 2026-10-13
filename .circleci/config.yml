@@ -1,62 +1,96 @@
-version: 2
+version: 2.1
 
-workflows:
-  version: 2
-
-  development-workflow:
-    jobs:
-      - development
-
-  deployment-workflow:
-    jobs:
-      - development:
-          filters:
-            branches:
-              only:
-                - main
-
-      - deployment:
-          requires:
-            - development
-          filters:
-            branches:
-              only: main
-
-jobs:
-  development:
-    docker:
-      - image: circleci/python:3.6.8
-
+commands:
+  install:
     steps:
       - checkout
       - run:
-          name: Update poetry (circleci has <1.0 poetry by default)
-          command: pip install -U --user poetry
-      - run:
           name: Install
-          command: poetry install
+          command: |
+            pip install --upgrade poetry
+            poetry install
+
+jobs:
+  test:
+    parameters:
+      python-version:
+        type: string
+    docker:
+      - image: cimg/python:<< parameters.python-version >>
+    steps:
+      - install
+      - run:
+          name: Test
+          command: poetry run pytest
+
+  lint:
+    docker:
+      - image: cimg/python:3.14
+    steps:
+      - install
       - run:
           name: Lint
           command: poetry run black --check .
       - run:
           name: Check imports
-          command: poetry run isort --check-only -rc .
-      - run:
-          name: Test
-          command: poetry run pytest
-      - run:
-          name: Check package version
-          command: bash .circleci/check_version.sh
+          command: poetry run isort --check-only .
 
-  deployment:
+  check-version:
     docker:
-      - image: circleci/python:3.6.8
-
+      - image: cimg/python:3.14
     steps:
       - checkout
       - run:
-          name: Update poetry (circleci has <1.0 poetry by default)
-          command: pip install -U --user poetry
+          name: Check package version
+          command: python .circleci/check_version.py
+
+  publish:
+    docker:
+      - image: cimg/python:3.14
+    steps:
+      - checkout
       - run:
           name: Publish
-          command: poetry publish --build --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" --no-interaction
+          command: |
+            pip install --upgrade poetry
+            poetry publish --build --username __token__ --password "${PYPI_API_TOKEN}" --no-interaction
+
+workflows:
+  pr:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+          filters:
+            branches:
+              ignore: main
+      - lint:
+          filters:
+            branches:
+              ignore: main
+      - check-version:
+          filters:
+            branches:
+              ignore: main
+
+  merge:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+          filters:
+            branches:
+              only: main
+      - lint:
+          filters:
+            branches:
+              only: main
+      - publish:
+          requires:
+            - test
+            - lint
+          filters:
+            branches:
+              only: main
