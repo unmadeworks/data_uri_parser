@@ -1,10 +1,11 @@
-__version__ = "0.1.0"
-
 import mimetypes
 import re
 import textwrap
-import urllib
+import urllib.parse
 from base64 import b64decode, encodebytes
+from importlib.metadata import version
+
+__version__ = version("data-uri-parser")
 
 MIMETYPE_REGEX = r"[\w]+\/[\w\-\+\.]+"
 _MIMETYPE_RE = re.compile("^{}$".format(MIMETYPE_REGEX))
@@ -48,7 +49,7 @@ class DataURI(str):
             parts.append(";base64")
             encoded_data = encodebytes(data).decode("ascii").replace("\n", "")
         else:
-            encoded_data = urllib.quote(data)
+            encoded_data = urllib.parse.quote(data)
         parts.extend([",", encoded_data])
         return cls("".join(parts))
 

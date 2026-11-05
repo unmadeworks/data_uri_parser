@@ -10,6 +10,8 @@ This isn't very robust, and will reject a number of valid data URIs. However, it
 
 ## How to install
 
+Requires Python 3.10 or newer.
+
 ```sh
 pip install data_uri_parser
 ```
@@ -17,6 +19,7 @@ pip install data_uri_parser
 ### Parsing
 
 ```python
+>>> from data_uri_parser import DataURI
 >>> uri = DataURI('data:text/plain;charset=utf-8;base64,VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu')
 >>> uri.mimetype
 'text/plain'
@@ -25,20 +28,27 @@ pip install data_uri_parser
 >>> uri.is_base64
 True
 >>> uri.data
-'The quick brown fox jumped over the lazy dog.'
+b'The quick brown fox jumped over the lazy dog.'
 ```
 
-Note that `DataURI.data` won't decode the data bytestring into a unicode string based on the charset.
+For base64 data URIs, `DataURI.data` returns `bytes`; it won't decode them into a string based on the charset. For other data URIs it returns the percent-decoded `str`.
 
 
-### Creating from a string
+### Creating from bytes
 
 ```python
->>> made = DataURI.make('text/plain', charset='us-ascii', base64=True, data='This is a message.')
+>>> made = DataURI.make('text/plain', charset='us-ascii', base64=True, data=b'This is a message.')
 >>> made
-DataURI('data:text/plain;charset=us-ascii;base64,VGhpcyBpcyBhIG1lc3NhZ2Uu')
+'data:text/plain;charset=us-ascii;base64,VGhpcyBpcyBhIG1lc3NhZ2Uu'
 >>> made.data
-'This is a message.'
+b'This is a message.'
+```
+
+With `base64=False`, the data is percent-encoded instead:
+
+```python
+>>> DataURI.make('text/plain', base64=False, data=b'Hello, world')
+'data:text/plain,Hello%2C%20world'
 ```
 
 
@@ -51,8 +61,23 @@ This is really just a convenience method.
 >>> png_uri.mimetype
 'image/png'
 >>> png_uri.data
-'\x89PNG\r\n...'
+b'\x89PNG\r\n...'
 ```
+
+## Development
+
+```sh
+poetry install
+poetry run pytest
+poetry run black --check .
+poetry run isort --check-only .
+```
+
+CI runs the tests on Python 3.10 to 3.14.
+
+## Releasing
+
+Merging to `main` publishes to PyPI, so every PR must bump `version` in `pyproject.toml`. CI fails a PR whose version is already on PyPI.
 
 ## Notes
 
